@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import glob from 'glob';
-import dot from 'dot-object';
+import Dot from 'dot-object';
 import yaml from 'js-yaml';
 import isValidGlob from 'is-valid-glob';
 import { SimpleFile, I18NLanguage, I18NItem } from '../types';
@@ -39,7 +39,7 @@ function readLangFiles (src: string): SimpleFile[] {
   });
 }
 
-function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLanguage {
+function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[], dot: DotObject.Dot = Dot): I18NLanguage {
   return languageFiles.reduce((accumulator, file) => {
     const language = file.fileName.substring(file.fileName.lastIndexOf('/') + 1, file.fileName.lastIndexOf('.'));
 
@@ -60,7 +60,7 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
   }, {});
 }
 
-export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKeys: I18NItem[]): void {
+export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKeys: I18NItem[], dot: DotObject.Dot = Dot): void {
   const languageFiles = readLangFiles(resolvedLanguageFiles);
   languageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
@@ -87,7 +87,7 @@ export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKe
   });
 }
 
-export function parseLanguageFiles (languageFilesPath: string): I18NLanguage {
+export function parseLanguageFiles (languageFilesPath: string, dot: DotObject.Dot = Dot): I18NLanguage {
   const filesList = readLangFiles(languageFilesPath);
-  return extractI18nItemsFromLanguageFiles(filesList);
+  return extractI18nItemsFromLanguageFiles(filesList, dot);
 }

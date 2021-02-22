@@ -88,6 +88,9 @@ Use if you want to add missing keys into your json language files.,
 
 -d, --dynamic,
 Use if you want to ignore dynamic keys false-positive. Use it 2 times to get dynamic keys report',
+
+-s, --separator,
+Use if you want to override the separator used when parsing locale identifiers. Default is `.`
 ```
 
 Examples

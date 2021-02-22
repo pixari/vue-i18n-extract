@@ -34,6 +34,10 @@ program
     increaseDynamic,
     0
   )
+  .option(
+    '-s, --separator <separator>',
+    'Use if you want to override the separator used when parsing locale identifiers. Default is `.`'
+  )
   .action(reportCommand);
 
 program.parseAsync(process.argv);

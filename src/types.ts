@@ -4,6 +4,7 @@ export type ReportOptions = {
   output?: string;
   add?: boolean;
   dynamic?: number;
+  separator?: string;
 }
 
 export type SimpleFile = {
