@@ -35,7 +35,6 @@ export function reportFromConfigCommand(): Promise<void> | void {
 
 export async function reportCommand (command: ReportOptions): Promise<void> {
   const { vueFiles, languageFiles, output, add, dynamic, ci } = command;
-  console.log(vueFiles);
   const report = createI18NReport(vueFiles, languageFiles, command);
 
   if (report.missingKeys) console.info('missing keys: '), console.table(report.missingKeys);

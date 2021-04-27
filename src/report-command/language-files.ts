@@ -28,7 +28,7 @@ function readLangFiles (src: string): SimpleFile[] {
     if (isJSON) {
       langObj = JSON.parse(fs.readFileSync(langPath, 'utf8'));
     } else if (isYAML) {
-      langObj = yaml.safeLoad(fs.readFileSync(langPath, 'utf8'));
+      langObj = yaml.load(fs.readFileSync(langPath, 'utf8'));
     } else {
       langObj = eval(fs.readFileSync(langPath, 'utf8'));
     }
@@ -49,7 +49,7 @@ function extractI18nItemsFromLanguageFiles (languageFiles: SimpleFile[]): I18NLa
 
     const flattenedObject = dot.dot(JSON.parse(file.content));
     Object.keys(flattenedObject).forEach((key, index) => {
-      accumulator[language]?.push({
+      accumulator[language].push({
         line: index,
         path: key,
         file: file.fileName,
@@ -81,7 +81,7 @@ export function writeMissingToLanguage (resolvedLanguageFiles: string, missingKe
       const jsFile = `export default ${stringifiedContent}; \n`;
       fs.writeFileSync(filePath, jsFile);
     } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-      const yamlFile = yaml.safeDump(languageFileContent);
+      const yamlFile = yaml.dump(languageFileContent);
       fs.writeFileSync(filePath, yamlFile);
     }
   });

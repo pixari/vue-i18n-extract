@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import dot from 'dot-object';
 import { parseLanguageFiles, writeMissingToLanguage } from '@/report-command/language-files';
-import { expectedFromParsedLanguageFiles, expectedI18NReport } from '../fixtures/expected-values';
-import { languageFiles } from '../fixtures/resolved-sources';
+import { expectedFromParsedLanguageFiles, expectedI18NReport } from '../ZZ_fixtures/expected-values';
+import { languageFiles } from '../ZZ_fixtures/resolved-sources';
 
 describe('file: report-command/language-files', () => {
   describe('function: parseLanguageFiles', () => {

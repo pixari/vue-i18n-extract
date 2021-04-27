@@ -6,10 +6,5 @@ module.exports = {
   testMatch: [
     '**/tests/unit/**/*.spec.(js|ts)|**/__tests__/*.(js|ts)'
   ],
-  globals: {
-    'ts-jest': {
-      packageJson: 'package.json',
-    },
-  },
   verbose: false,
 };

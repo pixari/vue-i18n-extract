@@ -1,9 +1,6 @@
 <h1 align="center">
-  <br>
-  <a href="https://github.com/pixari/vue-i18n-extract"><img align="center" width="70%"src="demo/img/logo_vuei18nextract.png" alt="vue-i18n-logo"></a>
+  <a href="https://github.com/pixari/vue-i18n-extract"><img align="center" width="70%"src=".github/img/vue-18n-extract-logo.png" alt="vue-i18n-logo"></a>
 </h1>
-
-<h4 align="center">Analyse all the <a href="https://kazupon.github.io/vue-i18n/" target="_blank">vue-i18n</a> language files and placeholders of your project</a>.</h4>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/vue-i18n-extract"><img src="https://img.shields.io/npm/v/vue-i18n-extract.svg?style=flat-square" alt="NPM Version"></a>
@@ -13,172 +10,124 @@
   <img src="https://github.com/pixari/vue-i18n-extract/workflows/Test/badge.svg?branch=master" alt="Tests">
 </p>
 
+`vue-i18n-extract` is built to work with your Vue.js projects using the library [vue-i18n](https://kazupon.github.io/vue-i18n/). It run static analysis on your Vue.js source code looking for any `vue-i18n` usage, in order to:
+
+- Report all **missing keys** in your language files.
+- Report all **unused keys** in your language files.
+- Optionally write every **missing keys** into your language files.
+
 <p align="center">
-  <img align="center" width="80%" src="demo/img/vue-i18n-extract-screenshot.png">
+  <img align="center" width="80%" src=".github/img/vue-i18n-extract-screenshot.png">
 </p>
 
-## :green_book: Table of Contents
+# Usage
 
-1. [Installation](#installation)
-2. [Introduction](#introduction)
-3. [How to use it?](#how-to-use-it?)
-4. [Contribution](#contribution)
-5. [Core Team](#core-team)
-6. [License](#license)
+You can run `vue-i18n-extract` with npx
 
-<h2>Installation</h2>
-
-Install with yarn:
-
-```bash
-yarn add vue-i18n-extract --dev
+```sh
+npx vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(json|yml|yaml)'
 ```
 
-Install with npm:
+**Or** you can download into your project and run as an `package.json` script.
 
-```bash
+```sh
 npm install --save-dev vue-i18n-extract
 ```
 
-<h2>Introduction</h2>
-<a href="https://kazupon.github.io/vue-i18n/" target="_blank">Vue I18n</a>  is a plugin for Vue.js which makes the internationalization and localization very easy.
-
-However, managing and maintaining all the language files and the vue-i18n keys inside a project could be very demanding and **vue-i18n-extract solves this problem**.
-
-Vue-i18n-extract performs a static analysis on a Vue.js project (which uses vue-i18n) and reports the following information:
-
-- list of all the **unused vue-i18n keys** (entries found in the language files but not used in the project)
-- list of all the **missing keys** (entries found in the project but not in the language files)
-
-Optionally you can decide to show the output in the console or in a json file.
-
-The missing keys can also be automatically added to the given language files.
-
-<h2>How to use it?</h2>
-
-<h3> Without config </h3>
-
-```bash
-yarn run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
+Add the following section to your `package.json`:
+```json
+{
+  "scripts": {
+    "vue-i18n-extract": "vue-i18n-extract report -v './path/to/your/vue-files/**/*.?(js|vue)' -l './path/to/your/language-files/*.?(json|yml|yaml|js)'"
+  }
+}
 ```
 
-or
+Finally, run:
 
-```bash
-npm run vue-i18n-extract report -v <vueFiles> -l --languageFiles <languageFiles>
+```sh
+npm run vue-i18n-extract
 ```
 
-Required options
+This will print out a table of missing keys in your language files, as well as unused keys in your language files.
 
-```
--v, --vueFiles <vueFiles>,
-The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)
-
--l, --languageFiles <languageFiles>,
-The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
-
-```
-
-Options
-
-```
--o, --output <output>
-Use if you want to create a json file out of your report. (ex. -o output.json)
-
--a, --add,
-Use if you want to add missing keys into your json language files.,
-
--d, --dynamic,
-Use if you want to ignore dynamic keys false-positive. Use it 2 times to get dynamic keys report.',
-
--ci,
-The process will exit with exitCode=1 if at least one translation-key is missing (useful especially if it is part of a CI pipeline).',
-```
-
-Examples
-
-```
-npm run vue-i18n-extract report -v './demo/vue-files/**/*.?(js|vue)' -l './demo/lang/**/*.?(json|yaml|yml)'
-```
-
-<h3>With Config</h3>
-
-
-<h3>With config file</h3>
-
-Create an empty config file:
-
-```bash
-yarn run vue-i18n-extract init
-```
-
-Open the config file:
-
-```bash
-vue-i18n-extract.config.js
-```
-
-Edit the file and change the values:
+# Config
 
 ```js
-module.exports = {
-  vueFilesPath: './', // The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)
-  languageFilesPath: './', // The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
-  options: {
-    output: false, // false | string => Use if you want to create a json file out of your report. (ex. output.json)
-    add: false, // false | true => Use if you want to add missing keys into your json language files.
-    dynamic: false, // false | 'ignore' | 'report' => 'ignore' if you want to ignore dynamic keys false-positive. 'report' to get dynamic keys report.
-  }
-};
+-v, --vueFiles (required)
+// The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. Example: ./path/to/your/vue-files/**/*.?(js|vue)
+
+-l, --languageFiles (required)
+// The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns. Example: ./path/to/your/language-files/*.?(json|yml|yaml)
+
+-o, --output
+// Use if you want to create a json file out of your report. Example: `-o output.json`
+
+-a, --add
+// Use if you want to add missing keys into your language files.
+
+-d, --dynamic
+// Use if you want to add missing keys into your language files.
+
+--ci
+// The process will exit with exitCode=1 if at least one translation key is missing (useful if it is part of a CI pipeline).
 ```
 
-Run the program:
-```bash
-yarn run vue-i18n-extract use-config
+## Config File
+
+Optionally you can add a `vue-i18n-extract.config.js` file to the root of your project. Run `npx vue-i18n-extract init` to quickly bootstrap a config file. Available configuration is found [here](src/init-command/vue-i18n-extract.config.js)
+
+# Supported `vue-i18n` Formats
+
+- Static in template or script:
+```js
+// Single or double quote, and template literals
+$t('key.static') $t("key.static") $t(`key.static`)
+
+// Without dollar sign
+t('key.static') t("key.static") t(`key.static`)
+
+// $tc Support for use with plurals
+$tc('key.static', 0) $tc("key.static", 1) $tc(`key.static`, 2)
+
+// Without dollar sign
+tc('key.static', 0) tc("key.static", 1) tc(`key.static`, 2)
 ```
 
-<h2>Contribution</h2>
+- i18n component:
+```html
+<i18n path="key.component"></i18n>
+```
+> Note: As of right now there is no support for binding in path like `:path="condition ? 'string1' : 'string2'"` there is just support strings as shown above.
 
-We are very happy to get any kind of contribution to this project and we would like to make contributions to this project as easy and transparent as possible.
+- v-t directive with string literal:
+```html
+<p v-t="'key.directive'"></p>
+```
+> Note: As of right now there is no object support to reference that path from component data.
 
-When contributing to this repository, please first discuss the changes you wish to make via issue, email, or any other method with the owners of this repository before making a change.
+# Usage in NodeJS
+Make sure you have `vue-i18n-extract` installed locally and import the library.
 
-Please note we do have a code of conduct, please follow it in all of your interactions with the project.
+```js
+const VueI18NExtract = require('vue-i18n-extract');
 
-You can use the GitHub repository page for the following contributions:
+const report = VueI18NExtract.createI18NReport('./path/to/vue-files/**/*.?(js|vue)', './path/to/language-files/*.?(json|yml|yaml|js)');
+```
 
-- Reporting a bug
-- Discussing the current state of the code
-- Submitting a fix
-- Proposing new features
-- Becoming a maintainer
+# Why?
 
-### We use [Github Flow](https://guides.github.com/introduction/flow/index.html), so all code changes happen through pull requests.
+Setting up a Vue.js app with internationalization (i18n) support is easy nowadays: Once you have installed the plugin and injected into the Vue instance, you can just put `$t(‘Hello World’)` inside Vue.js component templates to use the plugin.
+However, in our personal experience we found it very difficult to keep the language files and the `.vue` files in sync.
 
-Pull requests are the best way to propose changes to the codebase. We actively welcome your pull requests.
+That's why we wrote `vue-i18n-extract`. We needed a way to analyze and compare our language files to our Vue.js source files, then report the result in a useful way.
+# Contribution
 
-**Instructions for contributing:**
+Please make sure to read the [Contributing Guide](.github/CONTRIBUTING.md) before making a pull request.
 
-1. Fork the repo and create your branch from `master`.
-2. If you've added code that should be tested, add tests.
-3. If you've changed APIs, update the documentation.
-4. Ensure the test suite passes.
-5. Make sure your code lints.
-6. Issue that pull request!
+# License
 
-<h3> Any contributions that you make will be under the MIT Software License </h3>
-In short, when you submit the code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
-
-### :bug: Report bugs using Github's [issues](https://github.com/pixari/vue-i18n-extract/issues)
-
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/pixari/vue-i18n-extract/issues/new).
-
-Great Bug Reports tend to have:
-
-- A quick summary and/or background
-- Steps to reproduce
-- What you expected would happen
-- What actually happens
+[MIT](http://opensource.org/licenses/MIT)
 
 <h2>Core Team</h2>
 
@@ -198,6 +147,3 @@ Great Bug Reports tend to have:
      </tr>
   </tbody>
 </table>
-
-<h2>License</h2>
-By contributing, you agree that your contributions will be licensed under its [MIT](http://opensource.org/licenses/MIT) License.

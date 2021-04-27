@@ -1,0 +1,11 @@
+{
+    "header": {
+      "titles": {
+        "title_1": "Title"
+      }
+    },
+    "menu": {
+      "p_1": "Clicked {count} times"
+    },
+    "Key used as default translation.": "Key used as default translation."
+}

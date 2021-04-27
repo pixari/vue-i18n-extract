@@ -1,6 +1,6 @@
 import { parseVueFiles } from '@/report-command/vue-files';
-import { expectedFromParsedVueFiles } from '../fixtures/expected-values';
-import { vueFiles } from '../fixtures/resolved-sources';
+import { expectedFromParsedVueFiles } from '../ZZ_fixtures/expected-values';
+import { vueFiles } from '../ZZ_fixtures/resolved-sources';
 import path from 'path';
 
 describe('file: report-command/vue-files', () => {

@@ -1,14 +1,20 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('path'), require('fs'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'path', 'fs', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml'], factory) :
-  (global = global || self, factory(global.vueI18NExtract = {}, global.path, global.fs, global.isValidGlob, global.glob, global.dotObject, global.jsYaml));
-}(this, (function (exports, path, fs, isValidGlob, glob, dot, yaml) {
-  path = path && Object.prototype.hasOwnProperty.call(path, 'default') ? path['default'] : path;
-  fs = fs && Object.prototype.hasOwnProperty.call(fs, 'default') ? fs['default'] : fs;
-  isValidGlob = isValidGlob && Object.prototype.hasOwnProperty.call(isValidGlob, 'default') ? isValidGlob['default'] : isValidGlob;
-  glob = glob && Object.prototype.hasOwnProperty.call(glob, 'default') ? glob['default'] : glob;
-  dot = dot && Object.prototype.hasOwnProperty.call(dot, 'default') ? dot['default'] : dot;
-  yaml = yaml && Object.prototype.hasOwnProperty.call(yaml, 'default') ? yaml['default'] : yaml;
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('fs'), require('path'), require('is-valid-glob'), require('glob'), require('dot-object'), require('js-yaml')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'fs', 'path', 'is-valid-glob', 'glob', 'dot-object', 'js-yaml'], factory) :
+  (global = global || self, factory(global.vueI18NExtract = {}, global.fs, global.path, global.isValidGlob, global.glob, global.dotObject, global.jsYaml));
+}(this, (function (exports, fs, path, isValidGlob, glob, dot, yaml) {
+  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+  var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
+  var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
+  var isValidGlob__default = /*#__PURE__*/_interopDefaultLegacy(isValidGlob);
+  var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
+  var dot__default = /*#__PURE__*/_interopDefaultLegacy(dot);
+  var yaml__default = /*#__PURE__*/_interopDefaultLegacy(yaml);
+
+  function initCommand() {
+    fs__default['default'].writeFileSync(path__default['default'].resolve(process.cwd(), './vue-i18n-extract.config.js'), fs__default['default'].readFileSync(path__default['default'].resolve(__dirname, './vue-i18n-extract.config.js'), 'utf8'));
+  }
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -29,11 +35,11 @@
   }
 
   function readVueFiles(src) {
-    if (!isValidGlob(src)) {
+    if (!isValidGlob__default['default'](src)) {
       throw new Error(`vueFiles isn't a valid glob pattern.`);
     }
 
-    const targetFiles = glob.sync(src);
+    const targetFiles = glob__default['default'].sync(src);
 
     if (targetFiles.length === 0) {
       throw new Error('vueFiles glob has no files.');
@@ -44,7 +50,7 @@
       return {
         fileName,
         path: f,
-        content: fs.readFileSync(f, 'utf8')
+        content: fs__default['default'].readFileSync(f, 'utf8')
       };
     });
   }
@@ -120,29 +126,29 @@
   }
 
   function readLangFiles(src) {
-    if (!isValidGlob(src)) {
+    if (!isValidGlob__default['default'](src)) {
       throw new Error(`languageFiles isn't a valid glob pattern.`);
     }
 
-    const targetFiles = glob.sync(src);
+    const targetFiles = glob__default['default'].sync(src);
 
     if (targetFiles.length === 0) {
       throw new Error('languageFiles glob has no files.');
     }
 
     return targetFiles.map(f => {
-      const langPath = path.resolve(process.cwd(), f);
+      const langPath = path__default['default'].resolve(process.cwd(), f);
       const extension = langPath.substring(langPath.lastIndexOf('.')).toLowerCase();
       const isJSON = extension === '.json';
       const isYAML = extension === '.yaml' || extension === '.yml';
       let langObj;
 
       if (isJSON) {
-        langObj = JSON.parse(fs.readFileSync(langPath, 'utf8'));
+        langObj = JSON.parse(fs__default['default'].readFileSync(langPath, 'utf8'));
       } else if (isYAML) {
-        langObj = yaml.safeLoad(fs.readFileSync(langPath, 'utf8'));
+        langObj = yaml__default['default'].load(fs__default['default'].readFileSync(langPath, 'utf8'));
       } else {
-        langObj = eval(fs.readFileSync(langPath, 'utf8'));
+        langObj = eval(fs__default['default'].readFileSync(langPath, 'utf8'));
       }
 
       const fileName = f.replace(process.cwd(), '');
@@ -162,11 +168,9 @@
         accumulator[language] = [];
       }
 
-      const flattenedObject = dot.dot(JSON.parse(file.content));
+      const flattenedObject = dot__default['default'].dot(JSON.parse(file.content));
       Object.keys(flattenedObject).forEach((key, index) => {
-        var _accumulator$language;
-
-        (_accumulator$language = accumulator[language]) == null ? void 0 : _accumulator$language.push({
+        accumulator[language].push({
           line: index,
           path: key,
           file: file.fileName
@@ -182,7 +186,7 @@
       const languageFileContent = JSON.parse(languageFile.content);
       missingKeys.forEach(item => {
         if (item.language && languageFile.fileName.includes(item.language) || !item.language) {
-          dot.str(item.path, '', languageFileContent);
+          dot__default['default'].str(item.path, '', languageFileContent);
         }
       });
       const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
@@ -190,13 +194,13 @@
       const stringifiedContent = JSON.stringify(languageFileContent, null, 2);
 
       if (fileExtension === 'json') {
-        fs.writeFileSync(filePath, stringifiedContent);
+        fs__default['default'].writeFileSync(filePath, stringifiedContent);
       } else if (fileExtension === 'js') {
         const jsFile = `export default ${stringifiedContent}; \n`;
-        fs.writeFileSync(filePath, jsFile);
+        fs__default['default'].writeFileSync(filePath, jsFile);
       } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-        const yamlFile = yaml.safeDump(languageFileContent);
-        fs.writeFileSync(filePath, yamlFile);
+        const yamlFile = yaml__default['default'].dump(languageFileContent);
+        fs__default['default'].writeFileSync(filePath, yamlFile);
       }
     });
   }
@@ -204,6 +208,8 @@
     const filesList = readLangFiles(languageFilesPath);
     return extractI18nItemsFromLanguageFiles(filesList);
   }
+
+  exports.VueI18NExtractReportTypes = void 0;
 
   (function (VueI18NExtractReportTypes) {
     VueI18NExtractReportTypes[VueI18NExtractReportTypes["None"] = 0] = "None";
@@ -273,7 +279,7 @@
   async function writeReportToFile(report, writePath) {
     const reportString = JSON.stringify(report);
     return new Promise((resolve, reject) => {
-      fs.writeFile(writePath, reportString, err => {
+      fs__default['default'].writeFile(writePath, reportString, err => {
         if (err) {
           reject(err);
           return;
@@ -285,8 +291,8 @@
   }
 
   function createI18NReport(vueFiles, languageFiles, command) {
-    const resolvedVueFiles = path.resolve(process.cwd(), vueFiles);
-    const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
+    const resolvedVueFiles = path__default['default'].resolve(process.cwd(), vueFiles);
+    const resolvedLanguageFiles = path__default['default'].resolve(process.cwd(), languageFiles);
     const parsedVueFiles = parseVueFiles(resolvedVueFiles);
     const parsedLanguageFiles = parseLanguageFiles(resolvedLanguageFiles);
     const reportType = command.dynamic ? exports.VueI18NExtractReportTypes.All : exports.VueI18NExtractReportTypes.Missing + exports.VueI18NExtractReportTypes.Unused;
@@ -294,7 +300,7 @@
   }
   function reportFromConfigCommand() {
     try {
-      const configFile = eval(fs.readFileSync(path.resolve(process.cwd(), 'vue-i18n-extract.config.js'), 'utf8'));
+      const configFile = eval(fs__default['default'].readFileSync(path__default['default'].resolve(process.cwd(), 'vue-i18n-extract.config.js'), 'utf8'));
       return reportCommand(_extends({
         vueFiles: configFile.vueFilesPath,
         languageFiles: configFile.languageFilesPath
@@ -318,63 +324,30 @@
       dynamic,
       ci
     } = command;
-    console.log(vueFiles);
     const report = createI18NReport(vueFiles, languageFiles, command);
     if (report.missingKeys) console.info('missing keys: '), console.table(report.missingKeys);
     if (report.unusedKeys) console.info('unused keys: '), console.table(report.unusedKeys);
     if (report.dynamicKeys && dynamic && dynamic > 1) console.info('dynamic detected keys: '), console.table(report.dynamicKeys);
 
     if (output) {
-      await writeReportToFile(report, path.resolve(process.cwd(), output));
+      await writeReportToFile(report, path__default['default'].resolve(process.cwd(), output));
       console.log(`The report has been has been saved to ${output}`);
     }
 
     if (add && report.missingKeys && report.missingKeys.length > 0) {
-      const resolvedLanguageFiles = path.resolve(process.cwd(), languageFiles);
+      const resolvedLanguageFiles = path__default['default'].resolve(process.cwd(), languageFiles);
       writeMissingToLanguage(resolvedLanguageFiles, report.missingKeys);
       console.log('The missing keys have been added to your languages files');
     }
 
-    if(ci) {
+    if (ci && Object.prototype.hasOwnProperty.call(report, 'missingKeys') && report.missingKeys !== undefined) {
       const exitCode = report.missingKeys.length > 0 ? 1 : 0;
-      console.log('EXIT CODE');
+      console.log(`[vue-i18n-extract] ${report.missingKeys.length} missing keys found.`);
       process.exit(exitCode);
     }
   }
 
-  var report = {
-    __proto__: null,
-    createI18NReport: createI18NReport,
-    reportFromConfigCommand: reportFromConfigCommand,
-    reportCommand: reportCommand,
-    readVueFiles: readVueFiles,
-    parseVueFiles: parseVueFiles,
-    writeMissingToLanguage: writeMissingToLanguage,
-    parseLanguageFiles: parseLanguageFiles,
-    get VueI18NExtractReportTypes () { return exports.VueI18NExtractReportTypes; },
-    extractI18NReport: extractI18NReport,
-    writeReportToFile: writeReportToFile
-  };
-
-  const configFile = `
-module.exports = {
-  vueFilesPath: './', // The Vue.js file(s) you want to extract i18n strings from. It can be a path to a folder or to a file. It accepts glob patterns. (ex. *, ?, (pattern|pattern|pattern)
-  languageFilesPath: './', The language file(s) you want to compare your Vue.js file(s) to. It can be a path to a folder or to a file. It accepts glob patterns (ex. *, ?, (pattern|pattern|pattern)
-  options: {
-    output: false, // false | string => Use if you want to create a json file out of your report. (ex. output.json)
-    add: false, // false | true => Use if you want to add missing keys into your json language files.
-    dynamic: false, // false | 'ignore' | 'report' => 'ignore' if you want to ignore dynamic keys false-positive. 'report' to get dynamic keys report.
-  }
-};
-`;
-  function initCommand() {
-    fs.writeFileSync('vue-i18n-extract.config.js', configFile);
-  }
-
-  var index = _extends({}, report);
-
   exports.createI18NReport = createI18NReport;
-  exports.default = index;
   exports.extractI18NReport = extractI18NReport;
   exports.initCommand = initCommand;
   exports.parseLanguageFiles = parseLanguageFiles;

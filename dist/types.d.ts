@@ -4,6 +4,7 @@ export declare type ReportOptions = {
     output?: string;
     add?: boolean;
     dynamic?: number;
+    ci?: boolean;
 };
 export declare type SimpleFile = {
     fileName: string;

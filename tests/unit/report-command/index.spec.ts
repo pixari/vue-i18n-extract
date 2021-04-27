@@ -1,8 +1,8 @@
 import path from 'path';
 import { reportCommand, reportFromConfigCommand } from '@/report-command';
 import { ReportOptions } from '@/types';
-import { expectedI18NReport } from '../fixtures/expected-values';
-import { vueFiles, languageFiles } from '../fixtures/resolved-sources';
+import { expectedI18NReport } from '../ZZ_fixtures/expected-values';
+import { vueFiles, languageFiles } from '../ZZ_fixtures/resolved-sources';
 import * as report from '@/report-command/report';
 import * as languageFileActions from '@/report-command/language-files';
 

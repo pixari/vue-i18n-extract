@@ -2,8 +2,8 @@ import fs from 'fs';
 import { extractI18NReport, writeReportToFile } from '@/report-command/report';
 import { parseVueFiles } from '@/report-command/vue-files';
 import { parseLanguageFiles } from '@/report-command/language-files';
-import { expectedI18NReport } from '../fixtures/expected-values';
-import { vueFiles, languageFiles } from '../fixtures/resolved-sources';
+import { expectedI18NReport } from '../ZZ_fixtures/expected-values';
+import { vueFiles, languageFiles } from '../ZZ_fixtures/resolved-sources';
 import { I18NReport, I18NLanguage, I18NItem } from '@/types';
 
 describe('file: report-command/report', () => {
