@@ -37,6 +37,7 @@
   - [`exclude`](#exclude)
   - [`noEmptyTranslation`](#noemptytranslation)
   - [`missingtranslationstring`](#missingtranslationstring)
+  - [`jsonIndentation`](#jsonIndentation)
 - [Supported `vue-i18n` Formats](#supported-vue-i18n-formats)
 - [Why?](#why)
 - [Contribution](#contribution)
@@ -220,6 +221,17 @@ You can generate a default configuration file using `npx vue-i18n-extract init` 
 * Examples:
   * `'Translation missing'`: Use "Translation missing" as default key.
   * `null`: Add the translation key to the file, but don't add a default translation. This will trigger `vue-i18n`'s the missingHandler.
+
+### `jsonIndentation`
+
+* Name: `jsonIndentation`
+* CLI argument: `--json-indentation`, `--jsonIndentation`
+* Required: No
+* Default: `2`
+* Type: `number` or `null`
+* Description: Number of spaces to use when writing JSON files.
+* Examples:
+  * `4`
 
 ## Supported `vue-i18n` Formats
 

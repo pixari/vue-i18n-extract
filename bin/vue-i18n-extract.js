@@ -47,6 +47,10 @@ cli
     '--missingTranslationString',
     'Default string for missing translations.'
    )
+  .option(
+    '--jsonIndentation',
+    'Indentation to be used when writing JSON files.'
+   )
    .option(
     '--detect <detectionType>',
     '[string] The type of issues you want to detect (ex. --detect missing) ',

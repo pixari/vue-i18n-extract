@@ -17,6 +17,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
     separator,
     noEmptyTranslation = '',
     missingTranslationString = '',
+    jsonIndentation = 2,
     detect = [DetectionType.Missing, DetectionType.Unused, DetectionType.Dynamic]
   } = options;
 
@@ -56,7 +57,7 @@ export async function createI18NReport (options: ReportOptions): Promise<I18NRep
   }
 
   if (add && report.missingKeys.length) {
-    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation, missingTranslationString);
+    writeMissingToLanguageFiles(languageFiles, report.missingKeys, dot, noEmptyTranslation, missingTranslationString, jsonIndentation);
     console.info('\nThe missing keys have been added to your language files.');
   }
 

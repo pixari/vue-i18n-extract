@@ -1,4 +1,4 @@
-export declare type ReportOptions = {
+export type ReportOptions = {
     vueFiles: string;
     languageFiles: string;
     output?: string;
@@ -9,6 +9,7 @@ export declare type ReportOptions = {
     separator?: string;
     noEmptyTranslation?: string;
     missingTranslationString?: string;
+    jsonIndentation?: number;
     detect?: DetectionType[];
 };
 export declare enum DetectionType {
@@ -16,25 +17,25 @@ export declare enum DetectionType {
     Unused = "unused",
     Dynamic = "dynamic"
 }
-export declare type SimpleFile = {
+export type SimpleFile = {
     fileName: string;
     path: string;
     content: string;
 };
-export declare type I18NItem = {
+export type I18NItem = {
     line?: number;
     path: string;
     file?: string;
     language?: string;
 };
-export declare type I18NItemWithBounding = I18NItem & {
+export type I18NItemWithBounding = I18NItem & {
     previousCharacter: string;
     nextCharacter: string;
 };
-export declare type I18NLanguage = {
+export type I18NLanguage = {
     [language: string]: I18NItem[];
 };
-export declare type I18NReport = {
+export type I18NReport = {
     missingKeys: I18NItem[];
     unusedKeys: I18NItem[];
     maybeDynamicKeys: I18NItem[];

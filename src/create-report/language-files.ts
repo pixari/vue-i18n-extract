@@ -62,7 +62,7 @@ export function extractI18NLanguageFromLanguageFiles (languageFiles: SimpleFile[
   }, {});
 }
 
-export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], missingKeys: I18NItem[], dot: DotObject.Dot = Dot, noEmptyTranslation = '', missingTranslationString = ''): void {
+export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], missingKeys: I18NItem[], dot: DotObject.Dot = Dot, noEmptyTranslation = '', missingTranslationString = '', jsonIndentation = 2): void {
   parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
 
@@ -73,11 +73,11 @@ export function writeMissingToLanguageFiles (parsedLanguageFiles: SimpleFile[], 
       }
     });
 
-    writeLanguageFile(languageFile, languageFileContent);
+    writeLanguageFile(languageFile, languageFileContent, jsonIndentation);
   });
 }
 
-export function removeUnusedFromLanguageFiles (parsedLanguageFiles: SimpleFile[], unusedKeys: I18NItem[], dot: DotObject.Dot = Dot): void {
+export function removeUnusedFromLanguageFiles (parsedLanguageFiles: SimpleFile[], unusedKeys: I18NItem[], dot: DotObject.Dot = Dot, jsonIndentation = 2): void {
   parsedLanguageFiles.forEach(languageFile => {
     const languageFileContent = JSON.parse(languageFile.content);
 
@@ -91,10 +91,10 @@ export function removeUnusedFromLanguageFiles (parsedLanguageFiles: SimpleFile[]
   });
 }
 
-function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: unknown) {
+function writeLanguageFile (languageFile: SimpleFile, newLanguageFileContent: unknown, jsonIndentation = 2) {
   const fileExtension = languageFile.fileName.substring(languageFile.fileName.lastIndexOf('.') + 1);
     const filePath = languageFile.path;
-    const stringifiedContent = JSON.stringify(newLanguageFileContent, null, 2);
+    const stringifiedContent = JSON.stringify(newLanguageFileContent, null, jsonIndentation);
 
     if (fileExtension === 'json') {
       fs.writeFileSync(filePath, stringifiedContent);

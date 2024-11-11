@@ -9,6 +9,7 @@ export type ReportOptions = {
   separator?: string;
   noEmptyTranslation?: string;
   missingTranslationString?: string;
+  jsonIndentation?: number;
   detect?: DetectionType[];
 }
 
