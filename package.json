@@ -16,7 +16,7 @@
   "source": "src/index.ts",
   "bin": "bin/vue-i18n-extract.js",
   "main": "dist/vue-i18n-extract.umd.js",
-  "module": "dist/vue-i18n-extract.modern.js",
+  "module": "dist/vue-i18n-extract.modern.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "bin",

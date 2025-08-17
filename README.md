@@ -215,11 +215,16 @@ You can generate a default configuration file using `npx vue-i18n-extract init` 
 * CLI argument: `--missing-translation-string`, `--missingTranslationString`
 * Required: No
 * Default: `''`
-* Type: `string` or `null`
+* Type: `string` or `null` or a placeholder variable `{{t}}`
 * Description: Text to use when missing translations are added to the translation files.
-* Examples:
-  * `'Translation missing'`: Use "Translation missing" as default key.
-  * `null`: Add the translation key to the file, but don't add a default translation. This will trigger `vue-i18n`'s the missingHandler.
+- Examples:
+  - `'Translation missing'`: Use "Translation missing" as default key.
+  - `null`: Add the translation key to the file, but don't add a default translation. This will trigger `vue-i18n`'s the missingHandler.
+  - `{{t}}`: This is a placeholder variable used for translation keys in your project. When processing templates or content, this placeholder will be replaced with the appropriate translation key. You can use this variable in different contexts such as:
+    - Inside double brackets: `[[{{t}}]]`
+    - As part of todo comments: `TODO: {{t}}`
+    - In any other text where a translation key needs to be inserted
+    - For example, if your key is "user.greeting", using `'Missing: {{t}}'` would generate "Missing: user.greeting" as the default text.
 
 ## Supported `vue-i18n` Formats
 
